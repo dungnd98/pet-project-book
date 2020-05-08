@@ -1,5 +1,6 @@
 const db = require('../db');
 const shortid = require('shortid');
+const bcrypt = require('bcrypt');
 
 module.exports.index = (req, res) => {
      const users = db.get('users').value();
@@ -20,6 +21,9 @@ module.exports.delete = (req, res) => {
 
 module.exports.portCreate = (req, res) => {
      req.body.id = shortid.generate();
+     req.body.password = bcrypt.hashSync('123123', 10);
+     req.body.wrongLoginCount = 0;
+     req.body.isAdmin = false;
      db.get('users').push(req.body).write();
      res.redirect('/users');
 }
