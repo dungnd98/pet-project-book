@@ -1,0 +1,28 @@
+extends ../layouts/commom.pug
+block content
+  h1.text-secondary.text-center.mb-3 Thong Tin Ca Nhan
+  if errors
+    each error in errors
+      .alert.alert-danger= error
+  form(action="/users/profile", method="POST")
+    input(type="hidden", name="id", value = user.id)
+
+    .form-group
+      label Avatar
+      p
+        img.rounded-circle(src=user.avatarUrl, width=100, height=100)
+      a.btn.btn-primary.mb-2(href="/users/profile/avatar") Thay Avatar 
+
+    .form-group
+      label Name
+      input(type="text", name="updateName", class="form-control", enctype="multipart/form-data", value=user.name)
+      
+    .form-group
+      label Phone
+      input(type="text", name="updateSdt", class="form-control", value = user.sdt)
+
+    .form-group
+      label Email
+      input(type="text", name="updateEmail", class="form-control", value = user.email)
+          
+    button(class="btn btn-primary mb-2") Luu

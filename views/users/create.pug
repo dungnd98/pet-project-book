@@ -7,7 +7,7 @@ block content
   form(action="/users/create", method="POST")
     .form-group
       label Name
-      input(type="text", name="name", class="form-control")
+      input(type="text", name="name", class="form-control", enctype="multipart/form-data")
       
     .form-group
       label Phone

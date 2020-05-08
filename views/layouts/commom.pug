@@ -20,5 +20,8 @@ html
             a.nav-link(href='/books') Book
           li.nav-item
             a.nav-link(href='/Transactions') Transactions
+      if user 
+        a.mr-2(href='users/profile')= "Xin chao, " + user.name
+        img.rounded-circle(src=user.avatarUrl, width=40, height=40)
     .container
       block content
