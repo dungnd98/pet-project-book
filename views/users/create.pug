@@ -1,0 +1,16 @@
+extends ../layouts/commom.pug
+block content
+  h1.text-secondary.text-center.mb-3 Quan Ly Ban Doc
+  if errors
+    each error in errors
+      .alert.alert-danger= error
+  form(action="/users/create", method="POST")
+    .form-group
+      label Name
+      input(type="text", name="name", class="form-control")
+      
+    .form-group
+      label Phone
+      input(type="text", name="sdt", class="form-control")
+          
+    button(class="btn btn-primary mb-2") Create

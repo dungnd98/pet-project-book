@@ -1,0 +1,18 @@
+extends ../layouts/commom.pug
+block content
+  h1.text-secondary.text-center.mb-3 Quan Ly Ban Doc
+  a.btn.btn-primary.mb-2(href='/users/create') Create 
+  table.table
+    tr
+      th Name
+      th SĐT
+      th Delete
+      th Update
+    each user in users
+      tr
+        td=user.name
+        td=user.sdt
+        td
+          a(href="/users/"+ user.id +"/delete") Click
+        td
+          a(href="/users/" + user.id + "/update") Click
