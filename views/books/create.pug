@@ -1,0 +1,20 @@
+extends ../layouts/commom.pug
+block content
+  h1.text-secondary.text-center.mb-3 Quan Ly Ban Doc
+  if errors
+    each error in errors
+      .alert.alert-danger= error
+  form(action="/books/create", method="POST", enctype="multipart/form-data")
+    .form-group
+      label Title
+      input(type="text", name="title", class="form-control")
+      
+    .form-group
+      label Description
+      input(type="text", name="description", class="form-control")
+
+    .form-group
+      label Cover Book
+      input(type="file", name="avatar", class="form-control-file")
+          
+    button(class="btn btn-primary mb-2") Create Book

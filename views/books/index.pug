@@ -1,0 +1,36 @@
+extends ../layouts/commom.pug
+block content
+    if user && user.isAdmin
+      h1.text-secondary.text-center.mb-5 Quan Ly Sach
+      a.btn.btn-primary.mb-2(href='/books/create') Create Book
+      table.table
+        tr
+          th Cover Book
+          th Title
+          th Delete
+          th Update
+        each book in books
+          tr
+            td
+              img.rounded(src=book.coverUrl, width=40, height=60)
+            td=book.title
+            td
+              a(href="/books/"+ book.id +"/delete") Click
+            td
+              a(href="/books/" + book.id + "/update") Click
+    else
+      h1.text-secondary.mt-3 List Book
+      .d-flex.align-items-center
+        form.ml-auto.d-flex(action="/books/search", method="GET")
+          input.form-control(type="text", name="q")
+          button.btn.btn-primary.ml-2 search
+      .row
+        each book in books
+          .col-sm-6.col-md-4.col-lg-3
+            .card.mb-3
+              img.card-img-top(src=book.coverUrl, height=260)
+              .card-body
+                h5.card-title= book.title
+                p.card-text= book.description
+                a.btn.btn-primary(href='/cart/add/' + book.id) Add to cart
+    include ../layouts/pagination.pug

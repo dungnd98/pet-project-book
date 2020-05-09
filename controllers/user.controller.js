@@ -13,6 +13,7 @@ module.exports.index = (req, res) => {
      let page = parseInt(req.query.page) || 1;
      let user = db.get('users').find({ id: req.signedCookies.userId }).value();
      let perPage = 5;
+     let link = "users";
      let start = (page -1) * perPage;
      let end = page * perPage;
      let totalPage = Math.ceil(db.get('users').value().length / perPage );
@@ -21,7 +22,8 @@ module.exports.index = (req, res) => {
           res.render('users/index', {
                users: userList,
                totalPage: totalPage,
-               page: page
+               page: page,
+               link: link
           })
      }
      else {
