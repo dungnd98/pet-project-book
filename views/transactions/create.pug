@@ -1,0 +1,18 @@
+extends ../layouts/commom.pug
+block content
+  h1.text-secondary.text-center.mt-3 Create transaction
+  form.col-sm-3(action='/transactions/create', method='POST')
+
+    label(for='users') Choose a User
+    select.form-control(id='users',name='userId')
+      each user in users
+        option(value=`${user.id}`)
+          span= user.name
+
+    label(for='books') Choose a book
+    select.form-control(id='books',name='bookId')
+      each book in books
+        option(value=`${book.id}`)
+          span= book.title
+          
+    button(class="btn btn-primary mt-2") Create

@@ -1,5 +1,6 @@
 const db = require('../db');
-const shortid = require('shortid')
+//const Book = require('../models/book.model');
+const shortid = require('shortid');
 const bcrypt = require('bcrypt');
 const cloudinary = require('cloudinary').v2;
 
@@ -9,7 +10,7 @@ cloudinary.config({
      api_secret: process.env.API_SECRET 
 });
 
-module.exports.index = (req, res) => {
+module.exports.index = async (req, res) => {
       let page = parseInt(req.query.page) || 1;
       let perPage = 5;
       let link = "books";
@@ -25,6 +26,10 @@ module.exports.index = (req, res) => {
             link: link,
             user: user
       });
+      // const books = await Book.find();
+      // res.render('books/index', {
+      //       books: books
+      // })
 }
 
 module.exports.create = (req, res) => {

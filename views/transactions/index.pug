@@ -1,0 +1,27 @@
+extends ../layouts/commom.pug
+block content
+    if user
+      h1.text-secondary.text-center.mb-5 Quan Ly Transactions
+      if user.isAdmin
+        a.btn.btn-primary.mb-2(href='/transactions/create') Create transactions
+      table.table
+        tr
+          th Name User
+          th Name Book
+          th Complete
+          if user.isAdmin
+            th Actions
+        if transactions
+          each obj in transactions
+            tr
+              each user in users
+                if(user.id === obj.userId)
+                  td= user.name
+              each book in books
+                if(book.id === obj.bookId)
+                  td= book.title
+              td= obj.isComplete ? 'Yes' : 'No'
+              if user.isAdmin
+                td
+                  a.btn.btn-primary(href='/transactions/' + obj.id + '/complete') Complete
+              

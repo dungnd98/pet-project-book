@@ -1,4 +1,5 @@
 const db = require('../db');
+const User = require('../models/user.model');
 const shortid = require('shortid');
 const bcrypt = require('bcrypt');
 const cloudinary = require('cloudinary').v2;
@@ -12,11 +13,13 @@ cloudinary.config({
 module.exports.index = (req, res) => {
      let page = parseInt(req.query.page) || 1;
      let user = db.get('users').find({ id: req.signedCookies.userId }).value();
+     //let user = User.findById({ _id: req.signedCookies.userId });
      let perPage = 5;
      let link = "users";
      let start = (page -1) * perPage;
      let end = page * perPage;
      let totalPage = Math.ceil(db.get('users').value().length / perPage );
+     //let totalPage = Math.ceil(User.find());
      let userList = db.get('users').value().slice(start, end);
      if(user.isAdmin === true) {
           res.render('users/index', {
@@ -26,9 +29,11 @@ module.exports.index = (req, res) => {
                link: link
           })
      }
-     else {
-          res.render('users/transaction')
-     }
+     // else {
+     //      res.render('transactions/index', {
+     //           users: user,
+     //      })
+     // }
 }
 
 module.exports.create = (req, res) => {

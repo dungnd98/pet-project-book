@@ -1,4 +1,5 @@
 const db = require('../db');
+//const User = require('../models/user.model')
 const bcrypt = require('bcrypt');
 
 module.exports.login = (req, res) => {
@@ -37,7 +38,7 @@ module.exports.portLogin = (req, res) => {
             res.cookie('userId', user.id, {
                 signed: true
             });
-            res.redirect('/users'); 
+            res.redirect('/users');
         }
     });
 }
