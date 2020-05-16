@@ -3,9 +3,9 @@ const express = require('express');
 const db = require('./db');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-// const mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
-// mongoose.connect(process.env.MONGO_URL, {useNewUrlParser: true});
+mongoose.connect(process.env.MONGO_URL, {useNewUrlParser: true});
 
 const userRoute = require('./routes/user.route');
 const authRoute = require('./routes/auth.route');

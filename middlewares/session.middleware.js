@@ -13,9 +13,6 @@ module.exports = (req, res, next) => {
     }
 
     let dataCart = db.get('sessions').find({ id: req.signedCookies.sessionId }).get('cart').value();
-    // if(dataCart){
-    //     res.locals.countCart = Object.values(dataCart).reduce((sum, item) => sum + item, 0);
-    // }
     let count = dataCart ? Object.values(dataCart).reduce((sum, item) => sum + item, 0) : 0;
     res.locals.countCart = count;
     

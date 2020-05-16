@@ -1,56 +1,53 @@
 const db = require('../db');
+const Trans = require('../models/trans.model');
+const Book = require('../models/book.model');
+const User = require('../models/user.model');
 const shortid = require('shortid');
 
-module.exports.index = (req, res) => {
-    let user = db.get('users').find({ id: req.signedCookies.userId }).value();
-    let page = parseInt(req.query.page) || 1;
-    let perPage = 5;
-    let link = "transactions";
-    let start = (page -1) * perPage;
-    let end = page * perPage;
-    let totalPage = Math.ceil(db.get('transactions').value().length / perPage );
-    let transactions = db.get('transactions').value().slice(start, end);
-    if(user.isAdmin === true) {
+module.exports.index = async (req, res) => {
+    const page = parseInt(req.query.page) || 1;
+    const perPage = 5;
+    const start = (page - 1) * perPage;
+    const link = "transactions";
+    const user = await User.findById({ _id: req.signedCookies.userId });
+    const totalPage = await Trans.estimatedDocumentCount();
+    const transList = await Trans.find(null, null, { skip: start }).limit(perPage);  
+    if(user.isAdmin) {
         res.render('transactions/index', {
-            transactions: transactions,
+            transactions: transList,
             totalPage: totalPage,
-            page: page,
             link: link,
-            users: db.get("users").value(),
-            books: db.get("books").value()
+            page: page,
+            users: await User.find(),
+            books: await Book.find()
         })
     }
     else {
-        let dataUser = db.get('transactions').filter({ userId: req.signedCookies.userId }).value();
+        const data = await Trans.find({ userId: req.signedCookies.userId });
         res.render('transactions/index', {
-            transactions: transactions,
-            user: db.get('users').find({ userId: dataUser.id }).value(),
-            books: db.get('books').find({ bookId: dataUser.id }).value()
+               transactions: data,
+               users: await User.find(),
+               books: await Book.find()
         })
     }
 }
 
-module.exports.create = (req, res) => {
+module.exports.create = async (req, res) => {
     res.render('transactions/create', {
-        users: db.get("users").value(),
-        books: db.get("books").value()
+        users: await User.find(),
+        books: await Book.find()
     })
 }
 
-module.exports.postCreate = (req, res) => {
-    req.body.id = shortid.generate();
+module.exports.postCreate = async (req, res) => {
     req.body.isComplete = false;
-    db.get("transactions")
-        .push(req.body)
-        .write();
+    const trans = new Trans(req.body);
+    trans.save();
     res.redirect("/transactions");
 }
 
-module.exports.complete = (req, res) => {
+module.exports.complete = async (req, res) => {
     let id = req.params.id;
-    db.get('transactions')
-        .find({ id: id})
-        .assign({ isComplete: true })
-        .write();
+    await Trans.updateOne({ _id: id}, {$set: {isComplete: true}});
     res.redirect("/transactions");
   }
