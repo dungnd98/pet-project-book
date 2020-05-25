@@ -27,14 +27,13 @@ app.set('view engine', 'pug');
 app.set('views', './views');
 
 app.get('/', (req, res) => {
-     let books = db.get("book")
-     res.render('index');
+     res.render('books/index');
 })
 
 //app.use('/', bookRoute);
 app.use('/users',authMiddleware.requireAuth, userRoute);
 app.use('/auth', authRoute);
-app.use('/books', bookRoute);
+app.use('/books', authMiddleware.requireAuth, bookRoute);
 app.use('/cart', cartRoute);
 app.use('/transactions', authMiddleware.requireAuth, transactionRoute);
 
